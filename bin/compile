@@ -11,9 +11,8 @@ set -e
 unset GIT_DIR
 
 # config
-PGBOUNCER_VERSION="1.5.4"
-STUNNEL_VERSION="4.56"
-S3_BUCKET="gregburek-buildpack-pgbouncer"
+POSTGRES_PACKAGE_URL="https://api.anvilworks.org/slugs/f26e5f59-2fd3-4244-a525-5c6cf287a5e4.tgz"
+PG_VERSION="9.3.1"
 
 # parse and derive params
 BUILD_DIR=$1
@@ -35,42 +34,20 @@ function indent() {
 }
 
 function package_download() {
-  engine="$1"
-  version="$2"
-  location="$3"
+  package="$1"
+  location="$2"
 
   mkdir -p $location
-  package="https://${S3_BUCKET}.s3.amazonaws.com/$engine-$version.tgz"
   curl $package -s -o - | tar xzf - -C $location
 }
 
-echo "Using pgbouncer version: ${PGBOUNCER_VERSION}" | indent
-echo "Using stunnel version: ${STUNNEL_VERSION}" | indent
+echo "Using postgresql version: ${PG_VERSION}" | indent
 
 # vendor directories
-VENDORED_PGBOUNCER="vendor/pgbouncer"
-VENDORED_STUNNEL="vendor/stunnel"
+VENDORED_POSTGRESQL="vendor/pg"
 
-# vendor pgbouncer into the slug
-PATH="$BUILD_DIR/$VENDORED_PGBOUNCER/bin:$PATH"
-echo "-----> Fetching and vendoring pgbouncer into slug"
-mkdir -p "$BUILD_DIR/$VENDORED_PGBOUNCER"
-package_download "pgbouncer" "${PGBOUNCER_VERSION}" "${BUILD_DIR}/${VENDORED_PGBOUNCER}"
+# vendor postgres into the slug
+echo "-----> Fetching and vendoring postgresql into slug"
+package_download "${POSTGRES_PACKAGE_URL}" "${BUILD_DIR}/${VENDORED_POSTGRESQL}"
 
-# vendor stunnel into the slug
-PATH="$BUILD_DIR/$VENDORED_STUNNEL/bin:$PATH"
-echo "-----> Fetching and vendoring stunnel into slug"
-mkdir -p "$BUILD_DIR/$VENDORED_STUNNEL"
-package_download "stunnel" "${STUNNEL_VERSION}" "${BUILD_DIR}/${VENDORED_STUNNEL}"
-
-echo "-----> Moving the configuration generation script into app/.profile.d"
-mkdir -p $BUILD_DIR/.profile.d
-cp "$BUILDPACK_DIR/bin/gen-pgbouncer-conf.sh" $BUILD_DIR/.profile.d/
-chmod +x $BUILD_DIR/.profile.d/gen-pgbouncer-conf.sh
-
-echo "-----> Moving the start-pgbouncer-stunnel script into app/bin"
-mkdir -p $BUILD_DIR/bin
-cp "$BUILDPACK_DIR/bin/start-pgbouncer-stunnel" $BUILD_DIR/bin/
-chmod +x $BUILD_DIR/bin/start-pgbouncer-stunnel
-
-echo "-----> pgbouncer/stunnel done"
+echo "-----> postgresql done"
