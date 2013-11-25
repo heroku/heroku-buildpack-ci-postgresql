@@ -50,4 +50,12 @@ VENDORED_POSTGRESQL="vendor/pg"
 echo "-----> Fetching and vendoring postgresql into slug"
 package_download "${POSTGRES_PACKAGE_URL}" "${BUILD_DIR}/${VENDORED_POSTGRESQL}"
 
+# setting .profile.d script for path
+echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
+mkdir -p $BUILD_DIR/.profile.d
+cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
+PATH=$PATH:$HOME/vendor/pg/bin/
+EOF
+
 echo "-----> postgresql done"
+
