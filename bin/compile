@@ -54,7 +54,7 @@ package_download "${POSTGRES_PACKAGE_URL}" "${BUILD_DIR}/${VENDORED_POSTGRESQL}"
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
 mkdir -p $BUILD_DIR/.profile.d
 cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
-PATH=$PATH:$HOME/vendor/pg/bin/
+PATH=$PATH:$HOME/vendor/pg/bin
 EOF
 
 echo "-----> postgresql done"
