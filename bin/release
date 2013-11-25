@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
 # bin/release <build-dir>
+
+PATH=$PATH:$HOME/vendor/pg/bin/
