@@ -11,7 +11,7 @@ set -e
 unset GIT_DIR
 
 # config
-POSTGRES_PACKAGE_URL="https://api.anvilworks.org/slugs/f26e5f59-2fd3-4244-a525-5c6cf287a5e4.tgz"
+POSTGRES_PACKAGE_URL="https://api.anvilworks.org/slugs/768e370c-9a1d-4b61-a69f-ce3fcfff64cc.tgz"
 PG_VERSION="9.3.1"
 
 # parse and derive params
