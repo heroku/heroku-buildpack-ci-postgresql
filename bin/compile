@@ -11,8 +11,8 @@ set -e
 unset GIT_DIR
 
 # config
-POSTGRES_PACKAGE_URL="https://api.anvilworks.org/slugs/768e370c-9a1d-4b61-a69f-ce3fcfff64cc.tgz"
-PG_VERSION="9.3.1"
+POSTGRESQL_VERSION="9.3.4"
+S3_BUCKET="gregburek-buildpack-postgresql"
 
 # parse and derive params
 BUILD_DIR=$1
@@ -34,27 +34,31 @@ function indent() {
 }
 
 function package_download() {
-  package="$1"
-  location="$2"
+  engine="$1"
+  version="$2"
+  location="$3"
 
   mkdir -p $location
+  package="https://${S3_BUCKET}.s3.amazonaws.com/$engine-$version.tgz"
   curl $package -s -o - | tar xzf - -C $location
 }
 
-echo "Using postgresql version: ${PG_VERSION}" | indent
+echo "Using postgresql version: ${POSTGRESQL_VERSION}" | indent
 
 # vendor directories
-VENDORED_POSTGRESQL="vendor/pg"
+VENDORED_POSTGRESQL="vendor/postgresql"
 
-# vendor postgres into the slug
+# vendor postgresql into the slug
+PATH="$BUILD_DIR/$VENDORED_POSTGRESQL/bin:$PATH"
 echo "-----> Fetching and vendoring postgresql into slug"
-package_download "${POSTGRES_PACKAGE_URL}" "${BUILD_DIR}/${VENDORED_POSTGRESQL}"
+mkdir -p "$BUILD_DIR/$VENDORED_POSTGRESQL"
+package_download "postgresql" "${POSTGRESQL_VERSION}" "${BUILD_DIR}/${VENDORED_POSTGRESQL}"
 
 # setting .profile.d script for path
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
 mkdir -p $BUILD_DIR/.profile.d
 cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
-PATH=$PATH:$HOME/vendor/pg/bin
+PATH=$PATH:$HOME/vendor/postgresql/bin
 EOF
 
 echo "-----> postgresql done"
