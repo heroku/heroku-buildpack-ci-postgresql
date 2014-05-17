@@ -1,0 +1,38 @@
+set -e
+
+if [ ! -f "/var/cache/postgresql-$POSTGRESQL_VERSION.tar.gz" ]; then
+  wget -q -O /var/cache/postgresql-$POSTGRESQL_VERSION.tar.gz http://ftp.postgresql.org/pub/source/v${POSTGRESQL_VERSION}/postgresql-${POSTGRESQL_VERSION}.tar.gz
+fi
+
+cd /var/cache/
+
+tar zxf /var/cache/postgresql-$POSTGRESQL_VERSION.tar.gz
+
+cd postgresql-$POSTGRESQL_VERSION
+LDFLAGS='-Wl,--as-needed -Wl,-z,now'
+CFLAGS='-fPIC -DLINUX_OOM_ADJ=0'
+./configure --prefix=/app/vendor/postgresql \
+            --enable-integer-datetimes \
+            --enable-thread-safety \
+            --enable-debug \
+            --disable-rpath \
+            --with-gnu-ld \
+            --with-pgport=5432 \
+            --with-system-tzdata=/usr/share/zoneinfo \
+            --without-tcl \
+            --without-perl \
+            --without-python \
+            --with-krb5 \
+            --with-gssapi \
+            --with-openssl \
+            --with-libxml \
+            --with-libxslt
+make
+make install
+
+cd contrib
+make
+make install
+
+cd /app/vendor/postgresql
+tar -zcf - . | /gof3r put -b $S3_BUCKET -k postgresql-$POSTGRESQL_VERSION.tgz
