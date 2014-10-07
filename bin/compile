@@ -37,13 +37,15 @@ function package_download() {
   engine="$1"
   version="$2"
   location="$3"
+  stack="$4"
 
   mkdir -p $location
-  package="https://${S3_BUCKET}.s3.amazonaws.com/$engine-$version.tgz"
+  package="https://${S3_BUCKET}.s3.amazonaws.com/$stack/$engine-$version.tgz"
   curl $package -s -o - | tar xzf - -C $location
 }
 
 echo "Using postgresql version: ${POSTGRESQL_VERSION}" | indent
+echo "Using stack version: ${STACK}" | indent
 
 # vendor directories
 VENDORED_POSTGRESQL="vendor/postgresql"
@@ -52,7 +54,7 @@ VENDORED_POSTGRESQL="vendor/postgresql"
 PATH="$BUILD_DIR/$VENDORED_POSTGRESQL/bin:$PATH"
 echo "-----> Fetching and vendoring postgresql into slug"
 mkdir -p "$BUILD_DIR/$VENDORED_POSTGRESQL"
-package_download "postgresql" "${POSTGRESQL_VERSION}" "${BUILD_DIR}/${VENDORED_POSTGRESQL}"
+package_download "postgresql" "${POSTGRESQL_VERSION}" "${BUILD_DIR}/${VENDORED_POSTGRESQL}" "${STACK}"
 
 # setting .profile.d script for path
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
