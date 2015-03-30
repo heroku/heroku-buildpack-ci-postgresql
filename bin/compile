@@ -12,7 +12,7 @@ unset GIT_DIR
 
 # config
 POSTGRESQL_VERSION="9.4.1"
-S3_BUCKET="woodhull-buildpack-postgresql"
+S3_BUCKET="woodhul-buildpack-postgresql"
 
 # parse and derive params
 BUILD_DIR=$1
@@ -60,7 +60,7 @@ package_download "postgresql" "${POSTGRESQL_VERSION}" "${BUILD_DIR}/${VENDORED_P
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
 mkdir -p $BUILD_DIR/.profile.d
 cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
-PATH=$PATH:$HOME/vendor/postgresql/bin
+PATH=$HOME/vendor/postgresql/bin:$PATH
 EOF
 
 echo "-----> postgresql done"
