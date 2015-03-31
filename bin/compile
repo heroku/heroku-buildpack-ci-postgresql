@@ -12,7 +12,7 @@ unset GIT_DIR
 
 # config
 POSTGRESQL_VERSION="9.4.1"
-S3_BUCKET="woodhul-buildpack-postgresql"
+S3_BUCKET="woodhull-buildpack-postgresql"
 
 # parse and derive params
 BUILD_DIR=$1
