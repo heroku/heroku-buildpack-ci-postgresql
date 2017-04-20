@@ -61,8 +61,10 @@ echo "-----> Initializing a new database"
 export PGHOST="/tmp"
 export DATABASE_URL="postgres:///postgres-buildpack-db"
 
-initdb -D ./.pg
-pg_ctl -D ./.pg -l logfile start
+PG_DATA_DIR="${BUILD_DIR}/${VENDORED_POSTGRESQL}/data"
+
+initdb -D $PG_DATA_DIR
+pg_ctl -D $PG_DATA_DIR -l logfile start
 sleep 3
 createdb postgres-buildpack-db
 
@@ -73,7 +75,7 @@ cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
 PATH=$HOME/vendor/postgresql/bin:$PATH
 export PGHOST="/tmp"
 export DATABASE_URL="postgres:///postgres-buildpack-db"
-pg_ctl -D ./.pg -l logfile start
+pg_ctl -D $PG_DATA_DIR -l logfile start
 EOF
 
 echo "-----> postgresql done"
