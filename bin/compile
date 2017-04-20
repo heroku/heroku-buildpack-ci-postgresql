@@ -56,11 +56,17 @@ echo "-----> Fetching and vendoring postgresql into slug"
 mkdir -p "$BUILD_DIR/$VENDORED_POSTGRESQL"
 package_download "postgresql" "${POSTGRESQL_VERSION}" "${BUILD_DIR}/${VENDORED_POSTGRESQL}" "${STACK}"
 
+# Initialize the database
+echo "-----> Initializing a new database"
+initdb -D ./.pg
+
 # setting .profile.d script for path
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
 mkdir -p $BUILD_DIR/.profile.d
 cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
 PATH=$HOME/vendor/postgresql/bin:$PATH
+PGHOST=/tmp
+pg_ctl -D ./.pg -l logfile start
 EOF
 
 echo "-----> postgresql done"
