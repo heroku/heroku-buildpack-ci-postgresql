@@ -67,6 +67,7 @@ initdb -D $PG_DATA_DIR
 pg_ctl -D $PG_DATA_DIR -l logfile start
 sleep 3
 createdb postgres-buildpack-db
+pg_ctl -D $PG_DATA_DIR -l logfile stop
 
 # setting .profile.d script for path
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
