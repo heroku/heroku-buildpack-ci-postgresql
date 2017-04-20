@@ -66,6 +66,7 @@ mkdir -p $BUILD_DIR/.profile.d
 cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
 PATH=$HOME/vendor/postgresql/bin:$PATH
 PGHOST=/tmp
+DATABASE_URL=postgres:///postgres-buildpack-db
 pg_ctl -D ./.pg -l logfile start
 EOF
 
