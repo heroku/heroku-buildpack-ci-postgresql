@@ -63,6 +63,7 @@ export DATABASE_URL="postgres:///postgres-buildpack-db"
 
 initdb -D ./.pg
 pg_ctl -D ./.pg -l logfile start
+sleep 3
 createdb postgres-buildpack-db
 
 # setting .profile.d script for path
