@@ -58,15 +58,19 @@ package_download "postgresql" "${POSTGRESQL_VERSION}" "${BUILD_DIR}/${VENDORED_P
 
 # Initialize the database
 echo "-----> Initializing a new database"
+export PGHOST="/tmp"
+export DATABASE_URL="postgres:///postgres-buildpack-db"
+
 initdb -D ./.pg
+pg_ctl -D ./.pg -l logfile start
 
 # setting .profile.d script for path
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
 mkdir -p $BUILD_DIR/.profile.d
 cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
 PATH=$HOME/vendor/postgresql/bin:$PATH
-PGHOST=/tmp
-DATABASE_URL=postgres:///postgres-buildpack-db
+PGHOST="/tmp"
+DATABASE_URL="postgres:///postgres-buildpack-db"
 pg_ctl -D ./.pg -l logfile start
 EOF
 
