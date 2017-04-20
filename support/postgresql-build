@@ -9,8 +9,12 @@ cd /var/cache/
 tar zxf /var/cache/postgresql-$POSTGRESQL_VERSION.tar.gz
 
 cd postgresql-$POSTGRESQL_VERSION
+
 LDFLAGS='-Wl,--as-needed -Wl,-z,now'
 CFLAGS='-fPIC -DLINUX_OOM_ADJ=0'
+
+apt-get install uuid-dev
+
 ./configure --prefix=/app/vendor/postgresql \
             --enable-integer-datetimes \
             --enable-thread-safety \
@@ -26,7 +30,9 @@ CFLAGS='-fPIC -DLINUX_OOM_ADJ=0'
             --with-gssapi \
             --with-openssl \
             --with-libxml \
-            --with-libxslt
+            --with-libxslt \
+            --with-uuid=e2fs
+
 make
 make install
 
