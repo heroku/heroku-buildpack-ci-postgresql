@@ -75,9 +75,7 @@ cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
 PATH=$HOME/vendor/postgresql/bin:$PATH
 export PGHOST=/tmp
 export DATABASE_URL="postgres:///postgres-buildpack-db"
+pg_ctl -D $HOME/vendor/postgresql/data -l logfile start
 EOF
-
-echo "pg_ctl -D $PG_DATA_DIR -l logfile start" >> $BUILD_DIR/.profile.d/pg-path.sh
-echo "sleep 3" >> $BUILD_DIR/.profile.d/pg-path.sh
 
 echo "-----> postgresql done"
