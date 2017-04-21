@@ -60,6 +60,7 @@ echo "-----> Initializing database"
 export PGHOST=/tmp
 DATABASE=postgres-buildpack-db
 
+# Start database for Heroku CI
 PG_DATA_DIR=$BUILD_DIR/vendor/postgresql/data
 initdb -D $PG_DATA_DIR | indent
 pg_ctl -D $PG_DATA_DIR -l .pg.log start | indent
@@ -76,11 +77,10 @@ cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
 PATH=$HOME/vendor/postgresql/bin:$PATH
 
 export PGHOST=/tmp
-PG_DATA_DIR=$HOME/vendor/postgresql/data
+export PG_DATA_DIR=$HOME/vendor/postgresql/data
 export DATABASE_URL="postgres:///postgres-buildpack-db"
 
-# TODO: start if not running
-# pg_ctl -D $PG_DATA_DIR -l .pg.log start
+pg_ctl -D $PG_DATA_DIR -l .pg.log start
 EOF
 
 echo "-----> postgresql done"
