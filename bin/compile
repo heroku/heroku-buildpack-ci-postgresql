@@ -66,6 +66,9 @@ pg_ctl -D $PG_DATA_DIR -l .pg.log start | indent
 sleep 1
 createdb $DATABASE | indent
 
+echo "export PGHOST=$PGHOST" >> $BUILDPACK_DIR/export
+echo "export DATABASE_URL=postgres:///$DATABASE" >> $BUILDPACK_DIR/export
+
 # setting .profile.d script for database startup
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
 mkdir -p $BUILD_DIR/.profile.d
