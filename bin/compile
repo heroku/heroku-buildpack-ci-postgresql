@@ -66,8 +66,7 @@ password="p$(</dev/urandom tr -dc 'a-z0-9' | head -c 64)"
 
 PG_DATA_DIR=$BUILD_DIR/vendor/postgresql/data
 initdb -D $PG_DATA_DIR | indent
-pg_ctl -D $PG_DATA_DIR -l .pg.log start | indent
-sleep 1
+pg_ctl -D $PG_DATA_DIR -l .pg.log -w start | indent
 psql -c "CREATE USER ${user} WITH SUPERUSER ENCRYPTED PASSWORD '${password}'" postgres | indent
 createdb --owner $user $DATABASE | indent
 DATABASE_URL="postgres://${user}:${password}@localhost:5432/${DATABASE}"
@@ -84,7 +83,7 @@ PATH=$HOME/vendor/postgresql/bin:$PATH
 export PGHOST=/tmp
 export PG_DATA_DIR=$HOME/vendor/postgresql/data
 
-pg_ctl -D $PG_DATA_DIR -l .pg.log start
+pg_ctl -D $PG_DATA_DIR -l .pg.log -w start
 EOF
 
 cat<<EOF > $BUILD_DIR/.profile.d/pg-env.sh
