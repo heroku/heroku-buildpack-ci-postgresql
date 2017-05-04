@@ -70,6 +70,8 @@ pg_ctl -D $PGDATA -l .pg.log -w start | indent
 psql -c "CREATE USER ${user} WITH SUPERUSER ENCRYPTED PASSWORD '${password}'" postgres | indent
 createdb --owner $user $DATABASE | indent
 DATABASE_URL="postgres://${user}:${password}@localhost:5432/${DATABASE}"
+# N.B.: we do not stop the server here because some buildpacks rely on
+# having a live database at DATABASE_URL in order to run the build
 
 echo "export PGHOST=$PGHOST" >> $BUILDPACK_DIR/export
 echo "export DATABASE_URL=$DATABASE_URL" >> $BUILDPACK_DIR/export
@@ -83,7 +85,10 @@ PATH=$HOME/vendor/postgresql/bin:$PATH
 export PGHOST=/tmp
 export PGDATA=$HOME/vendor/postgresql/data
 
-pg_ctl -D $PGDATA -l .pg.log -w start
+if ! pg_ctl -D $PGDATA status >/dev/null;
+then
+  pg_ctl -D $PGDATA -l .pg.log -w start
+fi
 EOF
 
 cat<<EOF > $BUILD_DIR/.profile.d/pg-env.sh
