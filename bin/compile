@@ -64,9 +64,9 @@ DATABASE=postgres-buildpack-db
 user="u$(</dev/urandom tr -dc 'a-z0-9' | head -c 13)"
 password="p$(</dev/urandom tr -dc 'a-z0-9' | head -c 64)"
 
-PGDATA=$BUILD_DIR/vendor/postgresql/data
-initdb -D $PGDATA | indent
-pg_ctl -D $PGDATA -l .pg.log -w start | indent
+export PGDATA=$BUILD_DIR/vendor/postgresql/data
+initdb | indent
+pg_ctl -l .pg.log -w start | indent
 psql -c "CREATE USER ${user} WITH SUPERUSER ENCRYPTED PASSWORD '${password}'" postgres | indent
 createdb --owner $user $DATABASE | indent
 DATABASE_URL="postgres://${user}:${password}@localhost:5432/${DATABASE}"
@@ -85,9 +85,9 @@ PATH=$HOME/vendor/postgresql/bin:$PATH
 export PGHOST=/tmp
 export PGDATA=$HOME/vendor/postgresql/data
 
-if ! pg_ctl -D $PGDATA status >/dev/null;
+if ! pg_ctl status >/dev/null;
 then
-  pg_ctl -D $PGDATA -l .pg.log -w start
+  pg_ctl -l .pg.log -w start
 fi
 EOF
 
