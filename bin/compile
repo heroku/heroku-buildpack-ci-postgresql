@@ -45,6 +45,12 @@ function package_download() {
 }
 
 echo "Using postgresql version: ${POSTGRESQL_VERSION}" | indent
+
+case $STACK in
+    cedar-14) : ;;
+    *) error "Unrecognized stack version: ${STACK}";;
+esac
+
 echo "Using stack version: ${STACK}" | indent
 
 # vendor directories
