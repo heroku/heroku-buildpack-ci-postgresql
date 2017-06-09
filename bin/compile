@@ -12,7 +12,7 @@ unset GIT_DIR
 
 # config
 POSTGRESQL_VERSION="9.6.2"
-S3_BUCKET="appleton-buildpack-postgresql"
+S3_BUCKET="ci-database-binary"
 
 # parse and derive params
 BUILD_DIR=$1
