@@ -11,7 +11,7 @@ set -e
 unset GIT_DIR
 
 # config
-POSTGRESQL_VERSION="9.6.2"
+POSTGRESQL_VERSION="9.6.5"
 S3_BUCKET="ci-database-binary"
 
 # parse and derive params
