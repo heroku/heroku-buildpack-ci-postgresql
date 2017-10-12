@@ -7,7 +7,7 @@ This experimental [Heroku buildpack](http://devcenter.heroku.com/articles/buildp
 vendors Postgresql into the dyno. It is intended for use with Heroku CI or any
 other environment where data retention is not important.
 
-Please note that Postgresql will loose all data each time a dyno restarts.
+Please note that Postgresql will lose all data each time a dyno restarts.
 
 ## Usage
 
