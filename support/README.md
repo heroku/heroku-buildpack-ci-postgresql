@@ -30,5 +30,5 @@ Modify the `postgresql-build` file.
 
 `
 -tar -zcf - . | /gof3r put -b $S3_BUCKET -k cedar-14/postgresql-$POSTGRESQL_VERSION.tgz
-+tar -zcf - . | /gof3r put -b $S3_BUCKET -k heroku-16/postgresql-$POSTGRESQL_VERSION.tgz
++tar -zcf - . | /gof3r put -b $S3_BUCKET -k heroku-16/postgresql-$POSTGRESQL_VERSION.tgz --acl public-read
 `
