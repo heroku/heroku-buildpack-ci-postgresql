@@ -10,15 +10,26 @@ set -e
 # clean up leaking environment
 unset GIT_DIR
 
-# config
-POSTGRESQL_VERSION="10.1"
-S3_BUCKET="ci-database-binary"
-
 # parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 BUILDPACK_DIR="$(dirname $(dirname $0))"
+
+# config
+S3_BUCKET="ci-database-binary"
+POSTGRESQL_MAJOR_VERSION=10
+if [ -f "$ENV_DIR/POSTGRESQL_VERSION" ]
+then
+  POSTGRESQL_MAJOR_VERSION="$(cat $ENV_DIR/POSTGRESQL_VERSION)"
+fi
+
+case "$POSTGRESQL_MAJOR_VERSION" in
+  10)  POSTGRESQL_VERSION="10.1";;
+  9.6) POSTGRESQL_VERSION="9.6.6";;
+  *)   POSTGRESQL_VERSION="$POSTGRESQL_MAJOR_VERSION";;
+esac
 
 function error() {
   echo " !     $*" >&2
@@ -41,6 +52,10 @@ function package_download() {
 
   mkdir -p $location
   package="https://${S3_BUCKET}.s3.amazonaws.com/$stack/$engine-$version.tgz"
+  if ! wget --spider $package 2>/dev/null
+  then
+    error "Specified postgresql version ${POSTGRESQL_VERSION} is not available"
+  fi
   curl $package -s -o - | tar xzf - -C $location
 }
 
