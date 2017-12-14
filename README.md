@@ -14,3 +14,10 @@ Please note that Postgresql will lose all data each time a dyno restarts.
 This is intended to be transparent to your application. Connect to the database
 in the same way as you would for [Heroku Postgresql](https://www.heroku.com/postgres)
 by reading the value of the `DATABASE_URL` environment variable into your application.
+
+By default, the buildpack provides the latest Postgres version that is
+generally available on Heroku. You can specify a `POSTGRESQL_VERSION`
+in the `env` section of your
+[app.json](https://devcenter.heroku.com/articles/heroku-ci#environment-variables-env-key)
+to use a different major (e.g., "10" or "9.6") version. This feature
+is experimental and subject to change.
