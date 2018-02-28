@@ -88,7 +88,7 @@ user="u$(</dev/urandom tr -dc 'a-z0-9' | head -c 13)"
 password="p$(</dev/urandom tr -dc 'a-z0-9' | head -c 64)"
 
 export PGDATA=$BUILD_DIR/vendor/postgresql/data
-initdb | indent
+initdb -E UTF8 | indent
 pg_ctl -l .pg.log -w start | indent
 psql -c "CREATE USER ${user} WITH SUPERUSER ENCRYPTED PASSWORD '${password}'" postgres | indent
 createdb --owner $user $DATABASE | indent
