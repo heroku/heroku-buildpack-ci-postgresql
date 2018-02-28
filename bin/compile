@@ -88,6 +88,12 @@ user="u$(</dev/urandom tr -dc 'a-z0-9' | head -c 13)"
 password="p$(</dev/urandom tr -dc 'a-z0-9' | head -c 64)"
 
 export PGDATA=$BUILD_DIR/vendor/postgresql/data
+LC_COLLATE=en_US.UTF-8  \
+LC_CTYPE=en_US.UTF-8    \
+LC_MESSAGES=en_US.UTF-8 \
+LC_MONETARY=en_US.UTF-8 \
+LC_NUMERIC=en_US.UTF-8  \
+LC_TIME=en_US.UTF-8     \
 initdb -E UTF8 | indent
 pg_ctl -l .pg.log -w start | indent
 psql -c "CREATE USER ${user} WITH SUPERUSER ENCRYPTED PASSWORD '${password}'" postgres | indent
