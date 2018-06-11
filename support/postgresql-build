@@ -31,7 +31,41 @@ apt-get install uuid-dev
             --with-openssl \
             --with-libxml \
             --with-libxslt \
-            --with-uuid=e2fs
+            --with-uuid=e2fs \
+            --with-address_standardizer \
+            --with-address_standardizer_data_us \
+            --with-autoinc \
+            --with-btree_gist \
+            --with-btree_gin \
+            --with-chkpass \
+            --with-citext \
+            --with-cube \
+            --with-dblink \
+            --with-dict_int \
+            --with-earthdistance \
+            --with-fuzzystrmatch \
+            --with-hstore \
+            --with-insert_username \
+            --with-intarray \
+            --with-isn \
+            --with-lo \
+            --with-ltree \
+            --with-moddatetime \
+            --with-pg_stat_statements \
+            --with-pg_trgm \
+            --with-pgcrypto \
+            --with-pgrowlocks \
+            --with-pgstattuple \
+            --with-plpgsql \
+            --with-refint \
+            --with-seg \
+            --with-sslinfo \
+            --with-tablefunc \
+            --with-tcn \
+            --with-timetravel \
+            --with-unaccent \
+            --with-uuid-ossp \
+            --with-xml2
 
 make
 make install

@@ -5,7 +5,7 @@ You will need credentials for the S3 bucket from the devex team.
 ```
 export AWS_ACCESS_KEY_ID=<access key id from credentials>
 export AWS_SECRET_ACCESS_KEY=<secret key from credentials>
-export PGSQL_VERSION=9.6.5
+export PGSQL_VERSION=9.6.9
 docker build -t postgresql-builder .
 docker run -e "S3_BUCKET=ci-database-binary" \
  -e "POSTGRESQL_VERSION=$PGSQL_VERSION" \
