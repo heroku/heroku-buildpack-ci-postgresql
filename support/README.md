@@ -17,18 +17,18 @@ docker run -e "S3_BUCKET=ci-database-binary" \
 This should create a docker image called `postgresql-builder` and then build
 postgresql inside the image, and upload it to the S3 bucket.
 
-# Building for heroku-16
+# Building for heroku-*
 
 Modify the `Dockerfile`
 
 ```
 -FROM heroku/cedar:14
-+FROM heroku/heroku:16
++FROM heroku/heroku:<version>
 ```
 
 Modify the `postgresql-build` file.
 
 ```
 -tar -zcf - . | /gof3r put -b $S3_BUCKET -k cedar-14/postgresql-$POSTGRESQL_VERSION.tgz
-+tar -zcf - . | /gof3r put -b $S3_BUCKET -k heroku-16/postgresql-$POSTGRESQL_VERSION.tgz --acl public-read
++tar -zcf - . | /gof3r put -b $S3_BUCKET -k heroku-<version>/postgresql-$POSTGRESQL_VERSION.tgz --acl public-read
 ```

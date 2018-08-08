@@ -26,8 +26,8 @@ then
 fi
 
 case "$POSTGRESQL_MAJOR_VERSION" in
-  10)  POSTGRESQL_VERSION="10.1";;
-  9.6) POSTGRESQL_VERSION="9.6.6";;
+  10)  POSTGRESQL_VERSION="10.5";;
+  9.6) POSTGRESQL_VERSION="9.6.9";;
   *)   POSTGRESQL_VERSION="$POSTGRESQL_MAJOR_VERSION";;
 esac
 
@@ -65,6 +65,8 @@ case $STACK in
     cedar-14) : ;;
     heroku-16) : ;;
     heroku-16-build) : ;;
+    heroku-18) ;;
+    heroku-18-build) ;;
     *) error "Unrecognized stack version: ${STACK}";;
 esac
 
