@@ -15,6 +15,7 @@ CFLAGS='-fPIC -DLINUX_OOM_ADJ=0'
 
 apt-get install uuid-dev
 
+# keep this in sync with https://devcenter.heroku.com/articles/heroku-ci-in-dyno-databases#restrictions
 ./configure --prefix=/app/vendor/postgresql \
             --enable-integer-datetimes \
             --enable-thread-safety \
