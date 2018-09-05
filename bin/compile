@@ -126,4 +126,8 @@ cat<<EOF > $BUILD_DIR/.profile.d/pg-env.sh
 export DATABASE_URL="$DATABASE_URL"
 EOF
 
+cat<<EOF > $BUILD_DIR/export
+export DATABASE_URL="$DATABASE_URL"
+EOF
+
 echo "-----> postgresql done"
