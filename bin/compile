@@ -106,6 +106,7 @@ DATABASE_URL="postgres://${user}:${password}@localhost:5432/${DATABASE}"
 
 echo "export PGHOST=$PGHOST" >> $BUILDPACK_DIR/export
 echo "export DATABASE_URL=$DATABASE_URL" >> $BUILDPACK_DIR/export
+echo "export PGDATA=$HOME/vendor/postgresql/data" >> $BUILDPACK_DIR/export
 
 # setting .profile.d script for database startup
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
@@ -124,19 +125,6 @@ EOF
 
 cat<<EOF > $BUILD_DIR/.profile.d/pg-env.sh
 export DATABASE_URL="$DATABASE_URL"
-EOF
-
-cat<<EOF > $BUILD_DIR/export
-PATH=$HOME/vendor/postgresql/bin:$PATH
-
-export PGHOST=/tmp
-export DATABASE_URL="$DATABASE_URL"
-export PGDATA=$HOME/vendor/postgresql/data
-
-if ! pg_ctl status >/dev/null;
-then
-  pg_ctl -l .pg.log -w start
-fi
 EOF
 
 echo "-----> postgresql done"
