@@ -127,7 +127,16 @@ export DATABASE_URL="$DATABASE_URL"
 EOF
 
 cat<<EOF > $BUILD_DIR/export
+PATH=$HOME/vendor/postgresql/bin:$PATH
+
+export PGHOST=/tmp
 export DATABASE_URL="$DATABASE_URL"
+export PGDATA=$HOME/vendor/postgresql/data
+
+if ! pg_ctl status >/dev/null;
+then
+  pg_ctl -l .pg.log -w start
+fi
 EOF
 
 echo "-----> postgresql done"
