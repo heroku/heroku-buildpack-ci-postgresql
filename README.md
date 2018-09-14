@@ -26,4 +26,4 @@ is experimental and subject to change.
 
 Make sure you publish this buildpack in the buildpack registry
 
-`heroku buildpacks:publish heroku/ci-postgres`
+`heroku buildpacks:publish heroku/ci-postgres master`
