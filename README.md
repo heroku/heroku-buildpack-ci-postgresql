@@ -21,3 +21,9 @@ in the `env` section of your
 [app.json](https://devcenter.heroku.com/articles/heroku-ci#environment-variables-env-key)
 to use a different major (e.g., "10" or "9.6") version. This feature
 is experimental and subject to change.
+
+## Releasing a new version
+
+Make sure you publish this buildpack in the buildpack registry
+
+`heroku buildpacks:publish heroku/ci-postgresql master`
