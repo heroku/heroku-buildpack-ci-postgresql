@@ -126,4 +126,13 @@ cat<<EOF > $BUILD_DIR/.profile.d/pg-env.sh
 export DATABASE_URL="$DATABASE_URL"
 EOF
 
+cat<<EOF > $BUILDPACK_DIR/background
+PATH=$HOME/vendor/postgresql/bin:$PATH
+export PGHOST="$PGHOST"
+export DATABASE_URL="$DATABASE_URL"
+export PGHOST=/tmp
+export PGDATA=$HOME/vendor/postgresql/data
+pg_ctl -w restart >/dev/null
+EOF
+
 echo "-----> postgresql done"
