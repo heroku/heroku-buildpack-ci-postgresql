@@ -73,7 +73,7 @@ esac
 echo "Using stack version: ${STACK}" | indent
 
 # vendor directories
-VENDORED_POSTGRESQL=".heroku/vendor/postgresql"
+VENDORED_POSTGRESQL=".indyno/vendor/postgresql"
 
 # vendor postgresql into the slug
 PATH="$BUILD_DIR/$VENDORED_POSTGRESQL/bin:$PATH"
@@ -89,7 +89,7 @@ DATABASE=postgres_buildpack_db
 user="u$(</dev/urandom tr -dc 'a-z0-9' | head -c 13)"
 password="p$(</dev/urandom tr -dc 'a-z0-9' | head -c 64)"
 
-export PGDATA=$BUILD_DIR/.heroku/vendor/postgresql/data
+export PGDATA=$BUILD_DIR/.indyno/vendor/postgresql/data
 LC_COLLATE=en_US.UTF-8  \
 LC_CTYPE=en_US.UTF-8    \
 LC_MESSAGES=en_US.UTF-8 \
@@ -111,10 +111,10 @@ echo "export DATABASE_URL=$DATABASE_URL" >> $BUILDPACK_DIR/export
 echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
 mkdir -p $BUILD_DIR/.profile.d
 cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
-PATH=$HOME/.heroku/vendor/postgresql/bin:$PATH
+PATH=$HOME/.indyno/vendor/postgresql/bin:$PATH
 
 export PGHOST=/tmp
-export PGDATA=$HOME/.heroku/vendor/postgresql/data
+export PGDATA=$HOME/.indyno/vendor/postgresql/data
 
 if ! pg_ctl status >/dev/null;
 then
@@ -127,11 +127,11 @@ export DATABASE_URL="$DATABASE_URL"
 EOF
 
 cat<<EOF > $BUILDPACK_DIR/background
-PATH=$HOME/.heroku/vendor/postgresql/bin:$PATH
+PATH=$HOME/.indyno/vendor/postgresql/bin:$PATH
 export PGHOST="$PGHOST"
 export DATABASE_URL="$DATABASE_URL"
 export PGHOST=/tmp
-export PGDATA=$HOME/.heroku/vendor/postgresql/data
+export PGDATA=$HOME/.indyno/vendor/postgresql/data
 pg_ctl -w restart >/dev/null
 EOF
 
