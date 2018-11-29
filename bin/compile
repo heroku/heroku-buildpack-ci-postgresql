@@ -108,9 +108,9 @@ echo "export PGHOST=$PGHOST" >> $BUILDPACK_DIR/export
 echo "export DATABASE_URL=$DATABASE_URL" >> $BUILDPACK_DIR/export
 
 # setting .profile.d script for database startup
-echo "-----> Copying .profile.d/pg.sh to add postgresql binaries to PATH"
+echo "-----> Copying .profile.d/00-pg-path.sh to add postgresql binaries to PATH"
 mkdir -p $BUILD_DIR/.profile.d
-cat<<\EOF > $BUILD_DIR/.profile.d/pg-path.sh
+cat<<\EOF > $BUILD_DIR/.profile.d/00-pg-path.sh
 PATH=$HOME/.indyno/vendor/postgresql/bin:$PATH
 
 export PGHOST=/tmp
@@ -122,7 +122,7 @@ then
 fi
 EOF
 
-cat<<EOF > $BUILD_DIR/.profile.d/pg-env.sh
+cat<<EOF > $BUILD_DIR/.profile.d/01-pg-env.sh
 export DATABASE_URL="$DATABASE_URL"
 EOF
 
