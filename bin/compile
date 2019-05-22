@@ -136,4 +136,4 @@ export PGDATA=$HOME/.indyno/vendor/postgresql/data
 pg_ctl -w restart >/dev/null
 EOF
 
-echo "-----> postgresql done"
+echo "-----> Postgresql done"
