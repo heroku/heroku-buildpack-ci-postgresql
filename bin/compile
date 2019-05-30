@@ -14,7 +14,6 @@ unset GIT_DIR
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
-LP_DIR=`cd $(dirname $0); cd ..; pwd`
 BUILDPACK_DIR="$(dirname $(dirname $0))"
 
 # config
@@ -136,4 +135,4 @@ export PGDATA=$HOME/.indyno/vendor/postgresql/data
 pg_ctl -w restart >/dev/null
 EOF
 
-echo "-----> postgresql done"
+echo "-----> Postgresql done"
