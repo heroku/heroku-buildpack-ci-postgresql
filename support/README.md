@@ -10,3 +10,5 @@ PGSQL_VERSION=11.2
 ```
 
 This will create a docker image called `postgresql-builder` and then build postgresql inside the image, and upload it to the S3 bucket. It will do this for all the stacks in `build-postgresql`.
+
+Make sure to update [this article](https://devcenter.heroku.com/articles/heroku-ci-in-dyno-databases) with the supported versions.
