@@ -24,6 +24,4 @@ is experimental and subject to change.
 
 ## Releasing a new version
 
-Make sure you publish this buildpack in the buildpack registry
-
-`heroku buildpacks:publish heroku/ci-postgresql master`
+Follow the [playbook](https://salesforce.quip.com/exHCAbUbmN4U).
