@@ -2,24 +2,41 @@
 
 set -e -o pipefail
 
-if [ $# -le 2 ]; then
-  echo "usage: $(basename $0) POSTGRES_VERSION AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY"
+PG_VERSIONS_FILE="pg_versions"
+
+if [ ! -f "$PG_VERSIONS_FILE" ]; then
+  echo "The '$PG_VERSIONS_FILE' file should exist and contain a list of PG versions, e.g: 11.5;12.1"
   exit 1
 fi
 
-PGSQL_VERSION=$1
-AWS_ACCESS_KEY_ID=$2
-AWS_SECRET_ACCESS_KEY=$3
+if [[ -z "$AWS_ACCESS_KEY_ID" ]]; then
+  echo "AWS_ACCESS_KEY_ID should be set"
+  exit 1
+fi
 
-for stack in "cedar-14" "heroku-16" "heroku-16-build" "heroku-18" "heroku-18-build";
-  do
-    echo "Building for $stack"
+if [[ -z "$AWS_SECRET_ACCESS_KEY" ]]; then
+  echo "AWS_SECRET_ACCESS_KEY should be set"
+  exit 1
+fi
+
+# read postgres versions to build from file
+IFS=';' read -ra PGSQL_VERSIONS <<< "$(cat $PG_VERSIONS_FILE)"
+
+for PGSQL_VERSION in "${PGSQL_VERSIONS[@]}"; do
+  PGSQL_VERSION=$(echo "$PGSQL_VERSION" | tr -d '[:space:]') # '12.2 ' -> '12.2'
+  for stack in "cedar-14" "heroku-16" "heroku-16-build" "heroku-18" "heroku-18-build"; do
+    echo "Building PG $PGSQL_VERSION for $stack..."
     BASE_STACK=$(echo "$stack" | sed "s/-/:/1") # heroku-16-build -> heroku:16-build
-    docker build -t postgresql-builder --build-arg BASE_STACK="heroku/$BASE_STACK" --build-arg STACK_FOLDER="$stack" .
-    docker run -e "S3_BUCKET=ci-database-binary" \
-    -e "POSTGRESQL_VERSION=$PGSQL_VERSION" \
-    -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" \
-    -e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" \
-    -a=stdout -a=stderr postgresql-builder
-    echo "Finished $stack"
+    docker build \
+      -t postgresql-builder \
+      --build-arg BASE_STACK="heroku/$BASE_STACK" \
+      --build-arg STACK_FOLDER="$stack" .
+    docker run \
+      -e "S3_BUCKET=ci-database-binary" \
+      -e "POSTGRESQL_VERSION=$PGSQL_VERSION" \
+      -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" \
+      -e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" \
+      -a=stdout -a=stderr postgresql-builder
+    echo "Finished building $PGSQL_VERSION for $stack."
   done
+done
