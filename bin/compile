@@ -133,7 +133,11 @@ export PGHOST="$PGHOST"
 export DATABASE_URL="$DATABASE_URL"
 export PGHOST=/tmp
 export PGDATA=$HOME/.indyno/vendor/postgresql/data
-pg_ctl -w restart >/dev/null
+if pg_ctl status >/dev/null; then
+  pg_ctl -l .pg.log -w restart >/dev/null
+else
+  pg_ctl -l .pg.log -w start >/dev/null
+fi
 EOF
 
 echo "-----> Postgresql done"
