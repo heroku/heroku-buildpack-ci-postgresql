@@ -24,4 +24,4 @@ is experimental and subject to change.
 
 ## Releasing a new version
 
-Follow the [playbook](https://salesforce.quip.com/exHCAbUbmN4U).
+Follow the [playbook](https://github.com/heroku/engineering-docs/blob/master/components/heroku-buildpack-ci-postgresql/update-version.md).
