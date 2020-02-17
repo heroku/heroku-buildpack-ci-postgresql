@@ -13,7 +13,7 @@ cd postgresql-$POSTGRESQL_VERSION
 LDFLAGS='-Wl,--as-needed -Wl,-z,now'
 CFLAGS='-fPIC -DLINUX_OOM_ADJ=0'
 
-apt-get install uuid-dev
+apt-get -y install uuid-dev
 
 # keep this in sync with https://devcenter.heroku.com/articles/heroku-ci-in-dyno-databases#restrictions
 ./configure --prefix=/app/vendor/postgresql \
