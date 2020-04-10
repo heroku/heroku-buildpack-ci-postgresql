@@ -98,7 +98,7 @@ LC_MONETARY=en_US.UTF-8 \
 LC_NUMERIC=en_US.UTF-8  \
 LC_TIME=en_US.UTF-8     \
 initdb -E UTF8 | indent
-if [ -f "$ENV_DIR/PG_TUNING" ]
+if [ -f "$ENV_DIR/HEROKU_CI_POSTGRES_FSYNC_OFF" ]
 then
   echo "-----> Setting fsync=off in /app/.indyno/vendor/postgresql/data/postgresql.conf"
   echo "fsync=off" >> /app/.indyno/vendor/postgresql/data/postgresql.conf
