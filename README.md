@@ -24,7 +24,7 @@ is experimental and subject to change.
 
 ## PostgreSQL fsync
 
-If you want to turn off fsync during your test, you can set `HEROKU_CI_POSTGRES_FSYNC_OFF` in your [app.json env](https://devcenter.heroku.com/articles/heroku-ci#environment-variables-env-key) section.
+If you want to turn off fsync during your test, you can set `HEROKU_CI_POSTGRES_FSYNC_OFF` in your [app.json env](https://devcenter.heroku.com/articles/heroku-ci#setting-environment-variables-the-env-key) section.
 
 ## Releasing a new version
 
