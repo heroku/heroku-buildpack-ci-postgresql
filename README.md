@@ -18,7 +18,7 @@ by reading the value of the `DATABASE_URL` environment variable into your applic
 By default, the buildpack provides the latest Postgres version that is
 generally available on Heroku. You can specify a `POSTGRESQL_VERSION`
 in the `env` section of your
-[app.json](https://devcenter.heroku.com/articles/heroku-ci#environment-variables-env-key)
+[app.json](https://devcenter.heroku.com/articles/heroku-ci#setting-environment-variables-the-env-key)
 to use a different major (e.g., "10" or "9.6") version. This feature
 is experimental and subject to change.
 
