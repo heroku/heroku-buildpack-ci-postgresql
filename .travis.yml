@@ -17,6 +17,11 @@ env:
   - STACK=heroku-18 POSTGRESQL_VERSION=11
   - STACK=heroku-18 POSTGRESQL_VERSION=12
 
+  - STACK=heroku-20 POSTGRESQL_VERSION=9.6
+  - STACK=heroku-20 POSTGRESQL_VERSION=10
+  - STACK=heroku-20 POSTGRESQL_VERSION=11
+  - STACK=heroku-20 POSTGRESQL_VERSION=12
+
   # Test relying on the buildpack's default PostgreSQL version.
   - STACK=heroku-18
 
