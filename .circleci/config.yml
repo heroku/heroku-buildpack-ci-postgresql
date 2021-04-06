@@ -3,13 +3,18 @@ version: 2.1
 orbs:
   docker: circleci/docker@1.5.0
 jobs:
-  heroku16pg96:
-    docker: &docker
-      - image: cimg/base:2020.01
+  test:
+    parameters:
+      stack:
+        type: string
+      pg_version:
+        type: string
     environment:
-      STACK: heroku-16
-      POSTGRESQL_VERSION: 9.6
-    steps: &checkout_and_test
+      STACK: << parameters.stack >>
+      POSTGRESQL_VERSION: << parameters.pg_version >>
+    docker:
+      - image: cimg/base:2020.01
+    steps:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
@@ -17,126 +22,48 @@ jobs:
           name: "Running test"
           command: ./support/test.sh "${STACK}"
 
-  heroku16pg11:
-    docker: *docker
-    environment:
-      STACK: heroku-16
-      POSTGRESQL_VERSION: 11
-    steps: *checkout_and_test
-
-  heroku16pg12:
-    docker: *docker
-    environment:
-      STACK: heroku-16
-      POSTGRESQL_VERSION: 12
-    steps: *checkout_and_test
-
-  heroku16pg13:
-    docker: *docker
-    environment:
-      STACK: heroku-16
-      POSTGRESQL_VERSION: 13
-    steps: *checkout_and_test
-
-  heroku18pg96:
-    docker: *docker
-    environment:
-      STACK: heroku-18
-      POSTGRESQL_VERSION: 9.6
-    steps: *checkout_and_test
-
-  heroku18pg10:
-    docker: *docker
-    environment:
-      STACK: heroku-18
-      POSTGRESQL_VERSION: 10
-    steps: *checkout_and_test
-
-  heroku18pg11:
-    docker: *docker
-    environment:
-      STACK: heroku-18
-      POSTGRESQL_VERSION: 11
-    steps: *checkout_and_test
-
-  heroku18pg12:
-    docker: *docker
-    environment:
-      STACK: heroku-18
-      POSTGRESQL_VERSION: 12
-    steps: *checkout_and_test
-
-  heroku18pg13:
-    docker: *docker
-    environment:
-      STACK: heroku-18
-      POSTGRESQL_VERSION: 13
-    steps: *checkout_and_test
-
-  heroku20pg96:
-    docker: *docker
-    environment:
-      STACK: heroku-20
-      POSTGRESQL_VERSION: 9.6
-    steps: *checkout_and_test
-
-  heroku20pg10:
-    docker: *docker
-    environment:
-      STACK: heroku-20
-      POSTGRESQL_VERSION: 10
-    steps: *checkout_and_test
-
-  heroku20pg11:
-    docker: *docker
-    environment:
-      STACK: heroku-20
-      POSTGRESQL_VERSION: 11
-    steps: *checkout_and_test
-
-  heroku20pg12:
-    docker: *docker
-    environment:
-      STACK: heroku-20
-      POSTGRESQL_VERSION: 12
-    steps: *checkout_and_test
-
-  heroku20pg13:
-    docker: *docker
-    environment:
-      STACK: heroku-20
-      POSTGRESQL_VERSION: 13
-    steps: *checkout_and_test
-
-  # Test relying on the buildpack's default PostgreSQL version.
-  heroku18:
-    docker: *docker
-    environment:
-      STACK: heroku-18
-    steps: *checkout_and_test
-
-  # Test specifying an exact point release version.
-  heroku18pg117:
-    docker: *docker
-    environment:
-      STACK: heroku-18
-      POSTGRESQL_VERSION: 11.7
-    steps: *checkout_and_test
-
 workflows:
   main:
     jobs:
-      - heroku16pg96
-      - heroku16pg11
-      - heroku16pg12
-      - heroku16pg13
-      - heroku18pg96
-      - heroku18pg10
-      - heroku18pg11
-      - heroku18pg12
-      - heroku18pg12
-      - heroku20pg96
-      - heroku20pg10
-      - heroku20pg11
-      - heroku20pg12
-      - heroku20pg13
+      - test:
+          pg_version: "9.6"
+          stack: heroku-16
+      - test:
+          pg_version: "11"
+          stack: heroku-16
+      - test:
+          pg_version: "12"
+          stack: heroku-16
+      - test:
+          pg_version: "13"
+          stack: heroku-16
+      - test:
+          pg_version: "9.6"
+          stack: heroku-18
+      - test:
+          pg_version: "10"
+          stack: heroku-18
+      - test:
+          pg_version: "11"
+          stack: heroku-18
+      - test:
+          pg_version: "12"
+          stack: heroku-18
+      - test:
+          pg_version: "13"
+          stack: heroku-18
+      - test:
+          pg_version: "9.6"
+          stack: heroku-20
+      - test:
+          pg_version: "10"
+          stack: heroku-20
+      - test:
+          pg_version: "11"
+          stack: heroku-20
+      - test:
+          pg_version: "12"
+          stack: heroku-20
+      - test:
+          pg_version: "13"
+          stack: heroku-20
