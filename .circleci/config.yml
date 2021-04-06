@@ -67,3 +67,8 @@ workflows:
       - test:
           pg_version: "13"
           stack: heroku-20
+      - test:
+          stack: heroku-18
+      - test:
+          pg_version: "11.7"
+          stack: heroku-18
