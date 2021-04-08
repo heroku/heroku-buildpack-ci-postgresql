@@ -1,75 +1,38 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 orbs:
-  docker: circleci/docker@1.5.0
+    docker: circleci/docker@1.5.0
 jobs:
-  test:
-    parameters:
-      stack:
-        type: string
-      pg_version:
-        type: string
-    environment:
-      STACK: << parameters.stack >>
-      POSTGRESQL_VERSION: << parameters.pg_version >>
-    docker:
-      - image: cimg/base:2020.01
-    steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - checkout
-      - run:
-          name: "Running test"
-          command: ./support/test.sh "${STACK}"
+    test:
+        parameters:
+            stack:
+                type: string
+            pg_version:
+                type: string
+        environment:
+            STACK: << parameters.stack >>
+            POSTGRESQL_VERSION: << parameters.pg_version >>
+        docker:
+            - image: cimg/base:2020.01
+        steps:
+            - setup_remote_docker:
+                  docker_layer_caching: true
+            - checkout
+            - run:
+                  name: "Running test"
+                  command: ./support/test.sh "${STACK}"
 
 workflows:
-  main:
-    jobs:
-      - test:
-          pg_version: "9.6"
-          stack: heroku-16
-      - test:
-          pg_version: "11"
-          stack: heroku-16
-      - test:
-          pg_version: "12"
-          stack: heroku-16
-      - test:
-          pg_version: "13"
-          stack: heroku-16
-      - test:
-          pg_version: "9.6"
-          stack: heroku-18
-      - test:
-          pg_version: "10"
-          stack: heroku-18
-      - test:
-          pg_version: "11"
-          stack: heroku-18
-      - test:
-          pg_version: "12"
-          stack: heroku-18
-      - test:
-          pg_version: "13"
-          stack: heroku-18
-      - test:
-          pg_version: "9.6"
-          stack: heroku-20
-      - test:
-          pg_version: "10"
-          stack: heroku-20
-      - test:
-          pg_version: "11"
-          stack: heroku-20
-      - test:
-          pg_version: "12"
-          stack: heroku-20
-      - test:
-          pg_version: "13"
-          stack: heroku-20
-      - test:
-          pg_version: ""
-          stack: heroku-18
-      - test:
-          pg_version: "11.7"
-          stack: heroku-18
+    main:
+        jobs:
+            - test:
+                  matrix:
+                      parameters:
+                          pg_version: ["9.6", "10", "11", "12", "13"]
+                          stack: [heroku-16, heroku-18, heroku-20]
+            - test:
+                  pg_version: ""
+                  stack: heroku-18
+            - test:
+                  pg_version: "11.7"
+                  stack: heroku-18
