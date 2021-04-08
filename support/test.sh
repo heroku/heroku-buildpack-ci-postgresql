@@ -6,11 +6,7 @@ set -euo pipefail
 
 STACK="${1}"
 
-if [[ "${STACK}" == "cedar-14" ]]; then
-    BASE_IMAGE="heroku/${STACK/-/:}"
-else
-    BASE_IMAGE="heroku/${STACK/-/:}-build"
-fi
+BASE_IMAGE="heroku/${STACK/-/:}-build"
 
 OUTPUT_IMAGE="postgresql-test-${STACK}"
 
