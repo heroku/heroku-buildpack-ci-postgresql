@@ -24,7 +24,7 @@ IFS=';' read -ra PGSQL_VERSIONS <<< "$(cat $PG_VERSIONS_FILE)"
 
 for PGSQL_VERSION in "${PGSQL_VERSIONS[@]}"; do
   PGSQL_VERSION=$(echo "$PGSQL_VERSION" | tr -d '[:space:]') # '12.2 ' -> '12.2'
-  for stack in cedar-14 heroku-{16,18,20}; do
+  for stack in heroku-{18,20}; do
     echo "Building PG $PGSQL_VERSION for $stack..."
     BASE_IMAGE="heroku/${stack/-/:}" # heroku-18 -> heroku/heroku:18
     docker build \
