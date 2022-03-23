@@ -1,0 +1,19 @@
+name: Create postgresql binaries
+on:
+  workflow_dispatch:
+    inputs:
+      pgVersion:
+        description: "The version of postgres you would like to build"
+        required: true
+        type: string
+
+jobs:
+  create-postgres-binaries:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🍏 This job's status is ${{ job.status }}."
