@@ -2,11 +2,18 @@
 
 set -e -o pipefail
 
-PG_VERSIONS_FILE="pg_versions"
-
-if [ ! -f "$PG_VERSIONS_FILE" ]; then
-  echo "The '$PG_VERSIONS_FILE' file should exist and contain a list of PG versions, e.g: 11.5;12.1"
-  exit 1
+if [ -z "$1" ]; then
+  # read postgres versions to build from file
+  PG_VERSIONS_FILE="pg_versions"
+  if [ ! -f "$PG_VERSIONS_FILE" ]; then
+    echo "The '$PG_VERSIONS_FILE' file should exist and contain a list of PG versions, e.g: 11.5;12.1"
+    exit 1
+  fi
+  IFS=';' read -ra PGSQL_VERSIONS <<< "$(cat $PG_VERSIONS_FILE)"
+else
+  # explicit build, used by GH Action
+  echo "Building PostgreSQL $1"
+  IFS=';' read -ra PGSQL_VERSIONS <<< "$1"
 fi
 
 if [[ -z "$AWS_ACCESS_KEY_ID" ]]; then
@@ -18,9 +25,6 @@ if [[ -z "$AWS_SECRET_ACCESS_KEY" ]]; then
   echo "AWS_SECRET_ACCESS_KEY should be set"
   exit 1
 fi
-
-# read postgres versions to build from file
-IFS=';' read -ra PGSQL_VERSIONS <<< "$(cat $PG_VERSIONS_FILE)"
 
 for PGSQL_VERSION in "${PGSQL_VERSIONS[@]}"; do
   PGSQL_VERSION=$(echo "$PGSQL_VERSION" | tr -d '[:space:]') # '12.2 ' -> '12.2'
