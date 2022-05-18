@@ -59,7 +59,7 @@ function package_download() {
   then
     error "Specified postgresql version ${POSTGRESQL_VERSION} is not available"
   fi
-  curl $package -s -o - | tar xzf - -C $location
+  curl $package -sSf -o - | tar xzf - -C $location
 }
 
 echo "Using postgresql version: ${POSTGRESQL_VERSION}" | indent
