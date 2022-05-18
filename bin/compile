@@ -67,6 +67,7 @@ echo "Using postgresql version: ${POSTGRESQL_VERSION}" | indent
 case $STACK in
     heroku-18) ;;
     heroku-20) ;;
+    heroku-22) ;;
     *) error "Unrecognized stack version: ${STACK}";;
 esac
 
