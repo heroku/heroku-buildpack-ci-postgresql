@@ -1,7 +1,8 @@
-set -e
+set -euo pipefail
+set -o xtrace
 
 if [ ! -f "/var/cache/postgresql-$POSTGRESQL_VERSION.tar.gz" ]; then
-  wget -q -O /var/cache/postgresql-$POSTGRESQL_VERSION.tar.gz http://ftp.postgresql.org/pub/source/v${POSTGRESQL_VERSION}/postgresql-${POSTGRESQL_VERSION}.tar.gz
+  wget -q -O /var/cache/postgresql-$POSTGRESQL_VERSION.tar.gz https://ftp.postgresql.org/pub/source/v${POSTGRESQL_VERSION}/postgresql-${POSTGRESQL_VERSION}.tar.gz
 fi
 
 cd /var/cache/
