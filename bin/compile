@@ -107,6 +107,15 @@ pg_ctl -l .pg.log -w start | indent
 psql -c "CREATE USER ${user} WITH SUPERUSER ENCRYPTED PASSWORD '${password}'" postgres | indent
 createdb --owner $user $DATABASE | indent
 DATABASE_URL="postgres://${user}:${password}@localhost:5432/${DATABASE}"
+
+if [ -f "$ENV_DIR/HEROKU_CI_POSTGRES_HEROKU_EXT_OFF" ]
+then
+  echo "-----> Skipping heroku_ext support"
+else
+  echo "-----> Creating heroku_ext schema for extensions"
+  psql "$DATABASE_URL" -c "CREATE SCHEMA heroku_ext" | indent
+fi
+
 # N.B.: we do not stop the server here because some buildpacks rely on
 # having a live database at DATABASE_URL in order to run the build
 
