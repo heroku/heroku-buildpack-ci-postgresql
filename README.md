@@ -26,6 +26,12 @@ is experimental and subject to change.
 
 If you want to turn off fsync during your test, you can set `HEROKU_CI_POSTGRES_FSYNC_OFF` in your [app.json env](https://devcenter.heroku.com/articles/heroku-ci#setting-environment-variables-the-env-key) section.
 
+## heroku_ext extension schema
+
+By default, this buildpack will create the `heroku_ext` schema to better reflect production databases.
+
+To disable this, you can set `HEROKU_CI_POSTGRES_HEROKU_EXT_OFF` in your [app.json env](https://devcenter.heroku.com/articles/heroku-ci#setting-environment-variables-the-env-key) section.
+
 ## Releasing a new version
 
 Follow the [playbook](https://github.com/heroku/engineering-docs/blob/master/components/heroku-buildpack-ci-postgresql/update-version.md).
