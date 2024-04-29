@@ -6,8 +6,8 @@ jobs:
   test:
     strategy:
       matrix:
-        stack: [heroku-18, heroku-20, heroku-22]
-        pg_version: ["", "9.6", "10", "11", "11.7", "12", "13", "14", "15"]
+        stack: [heroku-20, heroku-22]
+        pg_version: ["", "12", "13", "14", "15", "16"]
     runs-on: ubuntu-latest
 
     steps:
