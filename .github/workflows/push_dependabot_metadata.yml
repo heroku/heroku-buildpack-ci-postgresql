@@ -7,7 +7,7 @@ on:
 
 jobs:
   send-alerts:
-    runs-on: pub-hk-ubuntu-22.04-small
+    runs-on: pub-hk-ubuntu-24.04-ip
     steps:
       - name: Send data to Security Alerts
         uses: heroku/security-alerts-action@main
