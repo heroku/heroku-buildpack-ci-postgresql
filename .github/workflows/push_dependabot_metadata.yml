@@ -3,7 +3,7 @@ name: Send data to Security Alerts
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 22 * * *'
 
 jobs:
   send-alerts:
@@ -22,13 +22,11 @@ jobs:
         with:
           repository: heroku/security-alerts-action
           token: ${{ steps.app-token.outputs.token }}
-          ref: for-public-repos-only
+          ref: public
 
       - name: Send data to Security Alerts
         uses: ./
         with:
-          gh-app-id: ${{ secrets.SECURITY_ALERTS_GH_APP_ID }}
-          gh-app-privkey: ${{ secrets.SECURITY_ALERTS_GH_APP_PRIVKEY }}
           webhook-url: ${{ secrets.SECURITY_ALERTS_WEBHOOK_URL }}
           sa-token: ${{ secrets.SECURITY_ALERTS_TOKEN }}
           gh-app-token: ${{ steps.app-token.outputs.token }}
