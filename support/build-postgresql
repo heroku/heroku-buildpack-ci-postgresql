@@ -28,7 +28,7 @@ fi
 
 for PGSQL_VERSION in "${PGSQL_VERSIONS[@]}"; do
   PGSQL_VERSION=$(echo "$PGSQL_VERSION" | tr -d '[:space:]') # '12.2 ' -> '12.2'
-  for stack in heroku-{20,22,24}; do
+  for stack in heroku-{22,24}; do
     echo "Building PG $PGSQL_VERSION for $stack..."
     BASE_IMAGE="heroku/${stack/-/:}" # heroku-22 -> heroku/heroku:22
     docker build \

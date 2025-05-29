@@ -18,21 +18,18 @@ BUILDPACK_DIR="$(dirname $(dirname $0))"
 
 # config
 S3_BUCKET="ci-database-binary"
-POSTGRESQL_MAJOR_VERSION=16
+POSTGRESQL_MAJOR_VERSION=17
 if [ -f "$ENV_DIR/POSTGRESQL_VERSION" ]
 then
   POSTGRESQL_MAJOR_VERSION="$(cat $ENV_DIR/POSTGRESQL_VERSION)"
 fi
 
 case "$POSTGRESQL_MAJOR_VERSION" in
-  16)  POSTGRESQL_VERSION="16.2";;
-  15)  POSTGRESQL_VERSION="15.2";;
-  14)  POSTGRESQL_VERSION="14.5";;
-  13)  POSTGRESQL_VERSION="13.8";;
-  12)  POSTGRESQL_VERSION="12.12";;
-  11)  POSTGRESQL_VERSION="11.17";;
-  10)  POSTGRESQL_VERSION="10.22";;
-  9.6) POSTGRESQL_VERSION="9.6.24";;
+  17)  POSTGRESQL_VERSION="17.5";;
+  16)  POSTGRESQL_VERSION="16.9";;
+  15)  POSTGRESQL_VERSION="15.13";;
+  14)  POSTGRESQL_VERSION="14.18";;
+  13)  POSTGRESQL_VERSION="13.21";;
   *)   POSTGRESQL_VERSION="$POSTGRESQL_MAJOR_VERSION";;
 esac
 
@@ -67,7 +64,6 @@ function package_download() {
 echo "Using postgresql version: ${POSTGRESQL_VERSION}" | indent
 
 case $STACK in
-    heroku-20) ;;
     heroku-22) ;;
     heroku-24) ;;
     *) error "Unrecognized stack version: ${STACK}";;
