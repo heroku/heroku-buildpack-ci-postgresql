@@ -25,11 +25,10 @@ then
 fi
 
 case "$POSTGRESQL_MAJOR_VERSION" in
-  17)  POSTGRESQL_VERSION="17.5";;
-  16)  POSTGRESQL_VERSION="16.9";;
-  15)  POSTGRESQL_VERSION="15.13";;
-  14)  POSTGRESQL_VERSION="14.18";;
-  13)  POSTGRESQL_VERSION="13.21";;
+  17)  POSTGRESQL_VERSION="17.9";;
+  16)  POSTGRESQL_VERSION="16.13";;
+  15)  POSTGRESQL_VERSION="15.17";;
+  14)  POSTGRESQL_VERSION="14.22";;
   *)   POSTGRESQL_VERSION="$POSTGRESQL_MAJOR_VERSION";;
 esac
 
@@ -66,6 +65,7 @@ echo "Using postgresql version: ${POSTGRESQL_VERSION}" | indent
 case $STACK in
     heroku-22) ;;
     heroku-24) ;;
+    heroku-26) ;;
     *) error "Unrecognized stack version: ${STACK}";;
 esac
 
